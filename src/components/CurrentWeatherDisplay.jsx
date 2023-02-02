@@ -6,6 +6,11 @@ export default function CurrentWeatherDisplay() {
     const currentWeather = useCurrentWeather();
 
     return <div>
-        I should be showing the current weather conditions.
+        {currentWeather.requestLoading ? 'fetching data...' : ''}
+        {currentWeather.requestData && <ul>
+            {
+                Object.values(currentWeather.requestData).map(v => <li>{v}</li>)
+            }
+        </ul>}
     </div>
 }

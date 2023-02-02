@@ -37,11 +37,14 @@ export default function SelectCityForm() {
             });
     }
 
-    return <form onSubmit={handleSubmit}>
-        <input type='text' value={currentWeather.locationLat} onChange={handleLatChange} />    
-        <input type='text' value={currentWeather.locationLon} onChange={handleLonChange} />    
+    return <>
+        <form onSubmit={handleSubmit}>
+            <input type='text' value={currentWeather.locationLat} onChange={handleLatChange} />    
+            <input type='text' value={currentWeather.locationLon} onChange={handleLonChange} />    
 
-        <input type='text' value={city} onChange={(e) => setCity(e.target.value)} />    
-        <input type='submit' value='change location' />    
-    </form>
+            <input type='text' value={city} onChange={(e) => setCity(e.target.value)} />    
+            <input type='submit' value='change location' />    
+        </form>
+        {currentWeather.requestError && <span style={{color: '#ff0000'}}>error: {currentWeather.requestError.message ?? currentWeather.requestError}</span>}
+    </>
 }

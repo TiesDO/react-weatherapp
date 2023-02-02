@@ -6,8 +6,8 @@ import { CurrentWeatherProvider } from './context/CurrentWeatherContext';
 const App = () => {
     return (
         <CurrentWeatherProvider>
-            <CurrentWeatherDisplay />
             <SelectCityForm />
+            <CurrentWeatherDisplay />
         </CurrentWeatherProvider>
     )
 }
