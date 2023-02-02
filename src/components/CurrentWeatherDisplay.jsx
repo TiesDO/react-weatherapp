@@ -4,8 +4,6 @@ import {useCurrentWeather} from '../context/CurrentWeatherContext';
 export default function CurrentWeatherDisplay() {
     // consume the context
     const currentWeather = useCurrentWeather();
-    
-    console.log(currentWeather);
 
     return <div>
         I should be showing the current weather conditions.

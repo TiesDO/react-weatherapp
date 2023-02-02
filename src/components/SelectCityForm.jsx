@@ -1,5 +1,6 @@
 import { useCurrentWeather } from "../context/CurrentWeatherContext";
 import React, { useState } from 'react';
+import fetchCurrentWeather from "../datafetch/fetchCurrentWeather";
 
 export default function SelectCityForm() {
     const currentWeather = useCurrentWeather();
@@ -12,6 +13,15 @@ export default function SelectCityForm() {
         e.preventDefault();
 
         console.log(`input was [lat:'${lat}', lon:'${lon}', city:'${city}']`);
+
+        // fetch the current weather for these coordinates
+        fetchCurrentWeather(lat, lon)
+            .then((data) => {
+                console.log(data);
+            })
+            .catch((error) => {
+                console.error(error);
+            })
     }
 
     return <form onSubmit={handleSubmit}>
