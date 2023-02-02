@@ -1,15 +1,12 @@
 import React from 'react';
-import { WeatherListItem } from './components/WeatherListItem';
+import CurrentWeatherDisplay from './components/CurrentWeatherDisplay';
+import { CurrentWeatherProvider } from './context/CurrentWeatherContext';
 
 const App = () => {
     return (
-        <div>
-            <h1>
-                Easy react app template!
-            </h1>
-
-            <WeatherListItem />
-        </div>
+        <CurrentWeatherProvider>
+            <CurrentWeatherDisplay />
+        </CurrentWeatherProvider>
     )
 }
 
