@@ -23,14 +23,13 @@ export default function SelectCityForm() {
         setDraftCity(e.target.value);
     }
 
-    const cityQuery = useDebounce(draftCity, 1000);
+    const cityQuery = useDebounce(draftCity, 600);
 
     // draft city use effect
     useEffect(() => {
-       fetchCitySuggesions(cityQuery)
+        fetchCitySuggesions(cityQuery)
             .then((data) => {
-                setCityOptions(data);
-                console.log(data);
+                setCityOptions(data.results.map(r => { return { name: r.name, lat: r.latitude, lon: r.longitude, id: r.id, country: r.country_code}}));
             })
             .catch((error) => console.error(error));
     }, [cityQuery])
@@ -62,7 +61,9 @@ export default function SelectCityForm() {
             <input type='text' value={currentWeather.locationLon} onChange={handleLonChange} />    
 
             <input type='text' list="citySuggestions" value={draftCity} onChange={handleCityChange} />    
-            <datalist id='datalist' />   
+            <datalist id='citySuggestions'>
+                {cityOptions && cityOptions.map(o => <option key={o.id} value={`${o.name}, ${o.country}`} />)}
+            </datalist>   
 
             <input type='submit' value='change location' />    
         </form>
