@@ -22,16 +22,6 @@ export default function SelectCityForm() {
 
     const handleCityChange = (e) => {
         setDraftCity(e.target.value);
-
-        if (cityOptions && cityOptions.length > 0) {
-            cityOptions.forEach(option => {
-                if (option.name.toLowerCase() === draftCity.toLowerCase())
-                {
-                    currentWeatherDispatch({ type: 'update_lat', payload: option.lat })                    
-                    currentWeatherDispatch({ type: 'update_lon', payload: option.lon })                    
-                }
-            });
-        }
     }
 
     const cityQuery = useDebounce(draftCity, 600);
@@ -44,6 +34,18 @@ export default function SelectCityForm() {
             })
             .catch((error) => console.error(error));
     }, [cityQuery])
+
+    useEffect(() => {
+        if (cityOptions && cityOptions.length > 0) {
+            cityOptions.forEach(option => {
+                if (option.name.toLowerCase() === draftCity.toLowerCase())
+                {
+                    currentWeatherDispatch({ type: 'update_lat', payload: option.lat })                    
+                    currentWeatherDispatch({ type: 'update_lon', payload: option.lon })                    
+                }
+            });
+        }
+    }, [draftCity, cityOptions])
 
     const handleSubmit = (e) => {
         e.preventDefault();
