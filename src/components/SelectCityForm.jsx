@@ -1,16 +1,11 @@
 import { useCurrentWeather, useCurrentWeatherDispatch } from "../context/CurrentWeatherContext";
-import React, { useRef, useEffect, useState } from 'react';
+import React from 'react';
 import fetchCurrentWeather from "../datafetch/fetchCurrentWeather";
-import fetchCitySuggesions from "../datafetch/fetchCitySuggestions";
-import { useDebounce } from "../hooks/useDebounce";
+import SelectCityInputSuggestion from "./SelectCityInputSuggestion";
 
 export default function SelectCityForm() {
     const currentWeather = useCurrentWeather();
     const currentWeatherDispatch = useCurrentWeatherDispatch();
-
-    const datalist = useRef(null);
-    const [draftCity, setDraftCity] = useState(''); // the raw value of the input box the user is typing in 
-    const [cityOptions, setCityOptions] = useState([]);
 
     const handleLatChange = (e) => {
         currentWeatherDispatch({ type: 'update_lat', payload: e.target.value });
@@ -19,33 +14,6 @@ export default function SelectCityForm() {
     const handleLonChange = (e) => {
         currentWeatherDispatch({ type: 'update_lon', payload: e.target.value });
     }
-
-    const handleCityChange = (e) => {
-        setDraftCity(e.target.value);
-    }
-
-    const cityQuery = useDebounce(draftCity, 600);
-
-    // draft city use effect
-    useEffect(() => {
-        fetchCitySuggesions(cityQuery)
-            .then((data) => {
-                setCityOptions(data.results.map(r => { return { name: r.name, lat: r.latitude, lon: r.longitude, id: r.id, country: r.country_code}}));
-            })
-            .catch((error) => console.error(error));
-    }, [cityQuery])
-
-    useEffect(() => {
-        if (cityOptions && cityOptions.length > 0) {
-            cityOptions.forEach(option => {
-                if (option.name.toLowerCase() === draftCity.toLowerCase())
-                {
-                    currentWeatherDispatch({ type: 'update_lat', payload: option.lat })                    
-                    currentWeatherDispatch({ type: 'update_lon', payload: option.lon })                    
-                }
-            });
-        }
-    }, [draftCity, cityOptions])
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -69,14 +37,14 @@ export default function SelectCityForm() {
     }
 
     return <>
-        <form onSubmit={handleSubmit}>
-            <input type='text' value={currentWeather.locationLat} onChange={handleLatChange} />    
-            <input type='text' value={currentWeather.locationLon} onChange={handleLonChange} />    
+        <div className="background-element"></div>
+        <form className="select-location-wrapper" onSubmit={handleSubmit}>
+            <input type='text' placeholder="lat" value={currentWeather.locationLat} onChange={handleLatChange} />    
+            <span className="coordinate">&#176;N</span>
+            <input type='text' placeholder="lon" value={currentWeather.locationLon} onChange={handleLonChange} />    
+            <span className="coordinate">&#176;E</span>
 
-            <input type='text' list="citySuggestions" value={draftCity} onChange={handleCityChange} />    
-            <datalist id='citySuggestions' ref={datalist}>
-                {cityOptions && cityOptions.map(o => <option key={o.id} value={o.name}> {`${o.name}, ${o.country}`} </option>)}
-            </datalist>   
+            <SelectCityInputSuggestion />
 
             <input type='submit' value='change location' />    
         </form>

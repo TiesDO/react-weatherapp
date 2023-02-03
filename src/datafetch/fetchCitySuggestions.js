@@ -1,6 +1,6 @@
 import { isNullOrEmpty } from "../utils/inputValidation"
 
-export default function fetchCitySuggesions(query) {
+export default function fetchCitySuggestions(query) {
     return new Promise((accept, reject) => {
         if (isNullOrEmpty(query))
         {
