@@ -1,5 +1,5 @@
 import { useCurrentWeather, useCurrentWeatherDispatch } from "../context/CurrentWeatherContext";
-import React, { useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import fetchCurrentWeather from "../datafetch/fetchCurrentWeather";
 import fetchCitySuggesions from "../datafetch/fetchCitySuggestions";
 import { useDebounce } from "../hooks/useDebounce";
@@ -8,9 +8,10 @@ export default function SelectCityForm() {
     const currentWeather = useCurrentWeather();
     const currentWeatherDispatch = useCurrentWeatherDispatch();
 
-    const [selectedCity, setSelectedCity] = useState(''); // is set once a city provided by the autocompletion api is selected
-    const [draftCity, setDraftCity] = useState(''); // the raw value of the input box the user is typing in
+    const datalist = useRef(null);
+    const [draftCity, setDraftCity] = useState(''); // the raw value of the input box the user is typing in 
     const [cityOptions, setCityOptions] = useState([]);
+
     const handleLatChange = (e) => {
         currentWeatherDispatch({ type: 'update_lat', payload: e.target.value });
     }
@@ -21,6 +22,16 @@ export default function SelectCityForm() {
 
     const handleCityChange = (e) => {
         setDraftCity(e.target.value);
+
+        if (cityOptions && cityOptions.length > 0) {
+            cityOptions.forEach(option => {
+                if (option.name.toLowerCase() === draftCity.toLowerCase())
+                {
+                    currentWeatherDispatch({ type: 'update_lat', payload: option.lat })                    
+                    currentWeatherDispatch({ type: 'update_lon', payload: option.lon })                    
+                }
+            });
+        }
     }
 
     const cityQuery = useDebounce(draftCity, 600);
@@ -61,8 +72,8 @@ export default function SelectCityForm() {
             <input type='text' value={currentWeather.locationLon} onChange={handleLonChange} />    
 
             <input type='text' list="citySuggestions" value={draftCity} onChange={handleCityChange} />    
-            <datalist id='citySuggestions'>
-                {cityOptions && cityOptions.map(o => <option key={o.id} value={`${o.name}, ${o.country}`} />)}
+            <datalist id='citySuggestions' ref={datalist}>
+                {cityOptions && cityOptions.map(o => <option key={o.id} value={o.name}> {`${o.name}, ${o.country}`} </option>)}
             </datalist>   
 
             <input type='submit' value='change location' />    
