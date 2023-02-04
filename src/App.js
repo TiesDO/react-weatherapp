@@ -6,8 +6,11 @@ import { CurrentWeatherProvider } from './context/CurrentWeatherContext';
 const App = () => {
     return (
         <CurrentWeatherProvider>
-            <SelectCityForm />
-            <CurrentWeatherDisplay />
+            <div className="background-element"></div>
+            <div className='content-wrapper'>
+                <SelectCityForm />
+                <CurrentWeatherDisplay />
+            </div>
         </CurrentWeatherProvider>
     )
 }

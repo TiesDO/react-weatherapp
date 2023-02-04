@@ -1,5 +1,5 @@
 import React from "react";
-import {useCurrentWeather} from '../context/CurrentWeatherContext';
+import {useCurrentWeather} from '../../context/CurrentWeatherContext';
 
 export default function CurrentWeatherDisplay() {
     // consume the context

@@ -1,7 +1,7 @@
-import { useCurrentWeather, useCurrentWeatherDispatch } from "../context/CurrentWeatherContext";
+import { useCurrentWeather, useCurrentWeatherDispatch } from "../../context/CurrentWeatherContext";
 import React from 'react';
-import fetchCurrentWeather from "../datafetch/fetchCurrentWeather";
-import SelectCityInputSuggestion from "./SelectCityInputSuggestion";
+import fetchCurrentWeather from "../../datafetch/fetchCurrentWeather";
+import { LabeledInputElement, SelectCityInput } from "../InputElements/";
 
 export default function SelectCityForm() {
     const currentWeather = useCurrentWeather();
@@ -36,17 +36,22 @@ export default function SelectCityForm() {
             });
     }
 
-    return <>
-        <div className="background-element"></div>
+    return <> 
         <form className="select-location-wrapper" onSubmit={handleSubmit}>
-            <input type='text' placeholder="lat" value={currentWeather.locationLat} onChange={handleLatChange} />    
-            <span className="coordinate">&#176;N</span>
-            <input type='text' placeholder="lon" value={currentWeather.locationLon} onChange={handleLonChange} />    
-            <span className="coordinate">&#176;E</span>
 
-            <SelectCityInputSuggestion />
+            <LabeledInputElement 
+                placeHolder="lat"
+                value={currentWeather.locationLat}
+                onChange={handleLatChange}
+                labelText='&#176;N' />
 
-            <input type='submit' value='change location' />    
+            <LabeledInputElement 
+                placeHolder="lon"
+                value={currentWeather.locationLon}
+                onChange={handleLonChange}
+                labelText='&#176;E' />
+
+            <SelectCityInput />   
         </form>
         {currentWeather.requestError && <span style={{color: '#ff0000'}}>error: {currentWeather.requestError.message ?? currentWeather.requestError}</span>}
     </>

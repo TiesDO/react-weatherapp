@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import fetchCitySuggestions from '../datafetch/fetchCitySuggestions';
+import fetchCitySuggestions from '../../datafetch/fetchCitySuggestions';
 
-export default function SelectCityInputSuggestion() {
+export function SelectCityInput() {
     
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
