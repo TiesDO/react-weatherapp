@@ -46,7 +46,7 @@ body {
     backdrop-filter: blur(var(--blur-amount));
 }
 
-.select-location-wrapper > input[type="text"] {
+.glass-input {
     max-width: 50px;
     
     outline: none;
