@@ -1,4 +1,5 @@
 import { useCurrentWeather, useCurrentWeatherDispatch } from "../../context/CurrentWeatherContext";
+import { useCurrentWeather, useCurrentWeatherDispatch } from "../../context/CurrentWeatherContext";
 import React from 'react';
 import fetchCurrentWeather from "../../datafetch/fetchCurrentWeather";
 import { LabeledInputElement, SelectCityInput } from "../InputElements/";
