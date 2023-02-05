@@ -7,7 +7,7 @@ const App = () => {
     return (
         <CurrentWeatherProvider>
             <div className="background-element"></div>
-            <div className='content-wrapper'>
+            <div className='content-wrapper glass-background'>
                 <SelectCityForm />
                 <CurrentWeatherDisplay />
             </div>
