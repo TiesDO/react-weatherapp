@@ -23,7 +23,8 @@ export default function fetchCurrentWeather(lat, lon) {
         const domain = 'api.open-meteo.com';
         const parameters = [
             `latitude=${lat}`,
-            `longitude=${lon}`
+            `longitude=${lon}`,
+            'current_weather=true'
         ];
 
         const url = `https://${domain}/v1/forecast?${parameters.join('&')}`;

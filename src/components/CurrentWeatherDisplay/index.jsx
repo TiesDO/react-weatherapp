@@ -1,16 +1,12 @@
 import React from "react";
 import {useCurrentWeather} from '../../context/CurrentWeatherContext';
+import { WiDayCloudy } from "weather-icons-react";
 
 export default function CurrentWeatherDisplay() {
     // consume the context
     const currentWeather = useCurrentWeather();
 
     return <div>
-        {currentWeather.requestLoading ? 'fetching data...' : ''}
-        {currentWeather.requestData && <ul>
-            {
-                Object.values(currentWeather.requestData).map(v => <li>{v}</li>)
-            }
-        </ul>}
+        {currentWeather.requestData && <><WiDayCloudy size={25} /> <span>{currentWeather.requestData.current_weather.temperature}</span></>}
     </div>
 }
