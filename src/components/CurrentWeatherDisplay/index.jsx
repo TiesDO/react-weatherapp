@@ -1,37 +1,36 @@
 import React from "react";
-import {useCurrentWeather} from '../../context/CurrentWeatherContext';
-import { WiDayCloudy } from "weather-icons-react";
+import { useCurrentWeather, FindWeatherObject } from '../../context/CurrentWeatherContext';
 
 export default function CurrentWeatherDisplay() {
-    const currentWeather = useCurrentWeather();
+    let currentWeather = useCurrentWeather().requestData?.current_weather;
 
     return ( 
         <div className="current-weather-container">
             <div className="weather-code">
-                <WiDayCloudy size={25} />
-                <h2>8.2</h2>
+                <h2>{currentWeather?.temperature ?? "_"}&#176;</h2>
+                {FindWeatherObject(currentWeather?.weathercode).icon(60)}
             </div>
-            <ul className="data-pane">
-                <li>
-                    <span>windspeed:</span>
-                    <span>12km/h</span>
-                </li>
+            <div className="data-pane">
+                <div>
+                    <span>windspeed: </span>
+                    <span>{currentWeather?.windspeed ?? "_"} km/h</span>
+                </div>
                 
-                <li>
-                    <span>winddirection:</span>
+                <div>
+                    <span>winddirection: </span>
                     <span>NE</span>
-                </li>
+                </div>
 
-                <li>
-                    <span>elevation:</span>
-                    <span>12m</span>
-                </li>
+                <div>
+                    <span>elevation: </span>
+                    <span>{useCurrentWeather()?.requestData?.elevation ?? "_"} m</span>
+                </div>
 
-                <li>
-                    <span>time:</span>
-                    <span>15:00</span>
-                </li>
-            </ul>
+                <div>
+                    <span>time: </span>
+                    <span>{currentWeather?.time ?? "_"}</span>
+                </div>
+            </div>
         </div>
     )
 }
