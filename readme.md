@@ -25,11 +25,3 @@ After the dependencies have been installed you can start the project by running:
 ```
 npm start
 ```
-
-## Structure
-
-For the time being I have opted to structure my project the following way:
-
-```
-
-```
